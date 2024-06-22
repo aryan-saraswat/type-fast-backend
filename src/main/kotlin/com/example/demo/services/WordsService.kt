@@ -17,9 +17,11 @@ class WordsService {
         val mapper = jacksonObjectMapper()
         val allWords: List<String> = inputStream.use { mapper.readValue(it) }
         val totalNumberOfWords = allWords.size
+
         check(requiredNumberOfWords <= totalNumberOfWords) {
             throw ResponseStatusException(HttpStatusCode.valueOf(500), "Too many words to return.")
         }
+
         val randomWords: MutableList<String> = mutableListOf()
         for (i in 1..requiredNumberOfWords) {
             val randomIndex = Math.random().times(totalNumberOfWords).toInt()
