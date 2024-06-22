@@ -32,3 +32,35 @@ tasks.withType<KotlinCompile> {
 }
 
 tasks.withType<Test> { useJUnitPlatform() }
+
+sourceSets {
+    val integrationTest by creating {
+        kotlin.srcDir("src/test-integration/kotlin")
+        resources.srcDir("src/test-integration/resources")
+        compileClasspath += sourceSets.main.get().output
+        runtimeClasspath += sourceSets.main.get().output
+    }
+}
+
+tasks.register<Test>("integrationTests") {
+    description = "runs the integration tests"
+    group = "verification"
+    testClassesDirs = sourceSets["integrationTest"].output.classesDirs
+    classpath = sourceSets["integrationTest"].runtimeClasspath
+    shouldRunAfter("test")
+}
+
+configurations["integrationTestImplementation"].extendsFrom(configurations["testImplementation"])
+
+configurations["integrationTestRuntimeOnly"].extendsFrom(configurations["testRuntimeOnly"])
+
+tasks.register("printSourceSetInformation") {
+    doLast {
+        sourceSets.forEach { srcSet ->
+            println("[${srcSet.name}]")
+            println("--> Source directories: ${srcSet.allJava.srcDirs}")
+            println("--> Output directories: ${srcSet.output.classesDirs.files}")
+            println()
+        }
+    }
+}
