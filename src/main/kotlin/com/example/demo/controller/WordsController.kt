@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 class WordsController(val wordsService: WordsService) {
     @CrossOrigin(origins = ["http://localhost:4200"])
-    @PostMapping("/hello")
+    @PostMapping("/get-words")
     fun randomWords(@RequestBody wordsRequest: WordsRequest): List<String> {
         println("randomWords function called")
         return wordsService.getRandomWords(wordsRequest.numberOfWords)
