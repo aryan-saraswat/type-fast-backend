@@ -33,6 +33,8 @@ tasks.withType<KotlinCompile> {
 
 tasks.withType<Test> { useJUnitPlatform() }
 
+// Integration tests--------------------------------------------------------------------------------
+
 sourceSets {
     val integrationTest by creating {
         kotlin.srcDir("src/test-integration/kotlin")
