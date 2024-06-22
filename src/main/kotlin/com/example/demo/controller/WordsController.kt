@@ -12,6 +12,7 @@ class WordsController(val wordsService: WordsService) {
     @CrossOrigin(origins = ["http://localhost:4200"])
     @PostMapping("/hello")
     fun randomWords(@RequestBody wordsRequest: WordsRequest): List<String> {
+        println("randomWords function called")
         return wordsService.getRandomWords(wordsRequest.numberOfWords)
     }
 }
